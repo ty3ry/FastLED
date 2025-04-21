@@ -24,6 +24,10 @@ FASTLED_NAMESPACE_BEGIN
 #define _RD32(T) struct __gen_struct_ ## T { static FASTLED_FORCE_INLINE volatile GPIO_TypeDef * r() { return T; } };
 #define _FL_IO(L,C) _RD32(GPIO ## L);
 
+#elif defined (STM32G0)
+// stm32duino
+#define _RD32(T) struct __gen_struct_ ## T { static FASTLED_FORCE_INLINE volatile GPIO_TypeDef * r() { return T; } };
+#define _FL_IO(L,C) _RD32(GPIO ## L);
 
 #else
 #error "Platform not supported"
@@ -205,6 +209,10 @@ _FL_DEFPIN(36, 1, D);
 #define SPI_DATA PB15
 // SPI2 SCK
 #define SPI_CLOCK PB13
+
+#define HAS_HARDWARE_PIN_SUPPORT
+
+#elif defined(STM32G0)
 
 #define HAS_HARDWARE_PIN_SUPPORT
 
