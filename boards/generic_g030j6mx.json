@@ -7,9 +7,9 @@
       "framework_extra_flags": {
         "arduino": "-D__CORTEX_SC=0"
       },
-      "mcu": "stm32g030j6",
+      "mcu": "stm32g030j6t6",
       "product_line": "STM32G030xx",
-      "variant": "STM32G0xx/G030J6M"
+      "variant": "STM32G0xx/G030J6T"
     },
     "debug": {
       "default_tools": [
