@@ -76,10 +76,10 @@ protected:
     // gcc will use register Y for the this pointer.
     static uint32_t showRGBInternal(PixelController<RGB_ORDER> pixels) {
         // Get access to the clock
-        CoreDebug->DEMCR  |= CoreDebug_DEMCR_TRCENA_Msk;
+        /*CoreDebug->DEMCR  |= CoreDebug_DEMCR_TRCENA_Msk;
         DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
         DWT->CYCCNT = 0;
-
+        */
         FASTLED_REGISTER data_ptr_t port = FastPin<DATA_PIN>::port();
         FASTLED_REGISTER data_t hi = *port | FastPin<DATA_PIN>::mask();;
         FASTLED_REGISTER data_t lo = *port & ~FastPin<DATA_PIN>::mask();;
@@ -93,15 +93,15 @@ protected:
 
         uint32_t next_mark = (T1+T2+T3);
 
-        DWT->CYCCNT = 0;
+        //DWT->CYCCNT = 0;
         while(pixels.has(1)) {
             pixels.stepDithering();
             #if (FASTLED_ALLOW_INTERRUPTS == 1)
             cli();
             // if interrupts took longer than 45µs, punt on the current frame
-            if(DWT->CYCCNT > next_mark) {
+            /*if(DWT->CYCCNT > next_mark) {
                 if((DWT->CYCCNT-next_mark) > ((WAIT_TIME-INTERRUPT_THRESHOLD)*CLKS_PER_US)) { sei(); return 0; }
-            }
+            }*/
 
             hi = *port | FastPin<DATA_PIN>::mask();
             lo = *port & ~FastPin<DATA_PIN>::mask();
@@ -124,7 +124,7 @@ protected:
         };
 
         sei();
-        return DWT->CYCCNT;
+        return 0;//DWT->CYCCNT;
     }
 };
 

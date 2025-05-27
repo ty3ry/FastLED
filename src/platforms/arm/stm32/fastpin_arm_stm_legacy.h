@@ -213,6 +213,42 @@ _FL_DEFPIN(36, 1, D);
 #define HAS_HARDWARE_PIN_SUPPORT
 
 #elif defined(STM32G0)
+// #define _FL_DEFPIN(PIN, BIT, L) template<> class FastPin<PIN> : public _ARMPIN<PIN, BIT, 1 << BIT, _R(GPIO ## L)> {};
+// STM32G031K8
+// PA0 ~ PA15
+_FL_DEFPIN(0, 0, A);
+_FL_DEFPIN(1, 1, A);
+_FL_DEFPIN(2, 2, A);
+_FL_DEFPIN(3, 3, A);
+_FL_DEFPIN(4, 4, A);
+_FL_DEFPIN(5, 5, A);
+_FL_DEFPIN(6, 6, A);
+_FL_DEFPIN(7, 7, A);
+_FL_DEFPIN(8, 8, A);
+_FL_DEFPIN(9, 9, A);
+_FL_DEFPIN(10, 10, A);
+_FL_DEFPIN(11, 11, A);
+_FL_DEFPIN(12, 12, A);
+_FL_DEFPIN(13, 13, A);
+_FL_DEFPIN(14, 14, A);
+_FL_DEFPIN(15, 15, A);
+
+// PB0 ~ PB9
+_FL_DEFPIN(16, 0, B);
+_FL_DEFPIN(17, 1, B);
+_FL_DEFPIN(18, 2, B);
+_FL_DEFPIN(19, 3, B);
+_FL_DEFPIN(20, 4, B);
+_FL_DEFPIN(21, 5, B);
+_FL_DEFPIN(22, 6, B);
+_FL_DEFPIN(23, 7, B);
+_FL_DEFPIN(24, 8, B);
+_FL_DEFPIN(25, 9, B);
+
+// PC6 ~ PC15
+_FL_DEFPIN(26, 6, C);
+_FL_DEFPIN(27, 14, C);
+_FL_DEFPIN(28, 15, C);
 
 #define HAS_HARDWARE_PIN_SUPPORT
 
