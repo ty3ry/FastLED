@@ -13,8 +13,8 @@
 #include <FastLED.h>
 FASTLED_USING_NAMESPACE
 
-#define DATA_PIN            3
-#define NUM_LEDS            60
+#define DATA_PIN            12
+#define NUM_LEDS            24
 #define MAX_POWER_MILLIAMPS 500
 #define LED_TYPE            WS2812B
 #define COLOR_ORDER         GRB

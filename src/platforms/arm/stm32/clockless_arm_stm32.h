@@ -28,6 +28,17 @@ public:
         FastPin<DATA_PIN>::setOutput();
         mPinMask = FastPin<DATA_PIN>::mask();
         mPort = FastPin<DATA_PIN>::port();
+
+#if defined(STM32G0)
+        /** use high resolution timer to replace DWT function on STM32 without it
+         * like STM32G0 series
+         */
+        __HAL_RCC_TIM2_CLK_ENABLE();
+        TIM2->PSC = 0;              // Full speed, no prescaler
+        TIM2->ARR = 0xFFFFFFFF;     // Max range (32-bit counter)
+        TIM2->CNT = 0;
+        TIM2->CR1 = TIM_CR1_CEN;    // Enable counter
+#endif
     }
 
     virtual uint16_t getMaxRefreshRate() const { return 400; }
@@ -42,7 +53,11 @@ protected:
         mWait.mark();
     }
 
+#if defined(STM32G0)
+#define _CYCCNT (TIM2->CNT)//(*(volatile uint32_t*)(0xE0001004UL))
+#else
 #define _CYCCNT (*(volatile uint32_t*)(0xE0001004UL))
+#endif //if defined(STM32G0)
 
     template<int BITS> __attribute__ ((always_inline)) inline static void writeBits(FASTLED_REGISTER uint32_t & next_mark, FASTLED_REGISTER data_ptr_t port, FASTLED_REGISTER data_t hi, FASTLED_REGISTER data_t lo, FASTLED_REGISTER uint8_t & b)  {
         for(FASTLED_REGISTER uint32_t i = BITS-1; i > 0; --i) {
@@ -76,10 +91,14 @@ protected:
     // gcc will use register Y for the this pointer.
     static uint32_t showRGBInternal(PixelController<RGB_ORDER> pixels) {
         // Get access to the clock
-        /*CoreDebug->DEMCR  |= CoreDebug_DEMCR_TRCENA_Msk;
+#if defined(STM32G0)
+        TIM2->CNT = 0;
+#else
+        CoreDebug->DEMCR  |= CoreDebug_DEMCR_TRCENA_Msk;
         DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
         DWT->CYCCNT = 0;
-        */
+#endif
+
         FASTLED_REGISTER data_ptr_t port = FastPin<DATA_PIN>::port();
         FASTLED_REGISTER data_t hi = *port | FastPin<DATA_PIN>::mask();;
         FASTLED_REGISTER data_t lo = *port & ~FastPin<DATA_PIN>::mask();;
@@ -93,15 +112,15 @@ protected:
 
         uint32_t next_mark = (T1+T2+T3);
 
-        //DWT->CYCCNT = 0;
+        _CYCCNT = 0;
         while(pixels.has(1)) {
             pixels.stepDithering();
             #if (FASTLED_ALLOW_INTERRUPTS == 1)
             cli();
             // if interrupts took longer than 45µs, punt on the current frame
-            /*if(DWT->CYCCNT > next_mark) {
-                if((DWT->CYCCNT-next_mark) > ((WAIT_TIME-INTERRUPT_THRESHOLD)*CLKS_PER_US)) { sei(); return 0; }
-            }*/
+            if(_CYCCNT > next_mark) {
+                if((_CYCCNT-next_mark) > ((WAIT_TIME-INTERRUPT_THRESHOLD)*CLKS_PER_US)) { sei(); return 0; }
+            }
 
             hi = *port | FastPin<DATA_PIN>::mask();
             lo = *port & ~FastPin<DATA_PIN>::mask();
@@ -124,7 +143,7 @@ protected:
         };
 
         sei();
-        return 0;//DWT->CYCCNT;
+        return _CYCCNT;
     }
 };
 

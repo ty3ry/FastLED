@@ -4,10 +4,10 @@
 
 #include <FastLED.h>
 
-#define LED_PIN     3
+#define LED_PIN     12
 
 // Information about the LED strip itself
-#define NUM_LEDS    60
+#define NUM_LEDS    24
 #define CHIPSET     WS2811
 #define COLOR_ORDER GRB
 CRGB leds[NUM_LEDS];

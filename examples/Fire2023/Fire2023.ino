@@ -31,8 +31,8 @@ using namespace fl;
 #define CentreY (HEIGHT / 2) - 1
 
 // NUM_LEDS = WIDTH * HEIGHT
-#define PIXELPIN 18
-#define NUM_LEDS      120
+#define PIXELPIN 12
+#define NUM_LEDS      24
 #define LAST_VISIBLE_LED 119
 
 
