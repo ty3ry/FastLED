@@ -16,8 +16,8 @@
 
 using namespace fl;
 
-#define DATA_PIN            3
-#define NUM_LEDS            60
+#define DATA_PIN            12
+#define NUM_LEDS            24
 #define MAX_POWER_MILLIAMPS 500
 #define LED_TYPE            WS2812B
 #define COLOR_ORDER         GRB
@@ -33,7 +33,7 @@ void setup() {
 }
 
 void loop() {
-  EVERY_N_MILLISECONDS(20) {
+  EVERY_N_MILLISECONDS(10) {
     pacifica.draw(Fx::DrawContext(millis(), leds));
     FastLED.show();
   }

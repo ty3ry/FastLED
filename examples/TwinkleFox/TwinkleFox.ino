@@ -5,10 +5,10 @@
 #include "FastLED.h"
 
 
-#define NUM_LEDS      100
+#define NUM_LEDS      24
 #define LED_TYPE   WS2811
 #define COLOR_ORDER   GRB
-#define DATA_PIN        3
+#define DATA_PIN        12
 //#define CLK_PIN       4
 #define VOLTS          12
 #define MAX_MA       4000

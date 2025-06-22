@@ -12,11 +12,11 @@
 #error "Requires FastLED 3.1 or later; check github for latest code."
 #endif
 
-#define DATA_PIN    3
+#define DATA_PIN    12
 //#define CLK_PIN   4
 #define LED_TYPE    WS2811
 #define COLOR_ORDER GRB
-#define NUM_LEDS    200
+#define NUM_LEDS    24
 #define BRIGHTNESS  255
 
 CRGB leds[NUM_LEDS];

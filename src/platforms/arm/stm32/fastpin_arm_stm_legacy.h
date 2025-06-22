@@ -212,7 +212,7 @@ _FL_DEFPIN(36, 1, D);
 
 #define HAS_HARDWARE_PIN_SUPPORT
 
-#elif defined(STM32G0)
+#elif defined(STM32G031xx)
 // #define _FL_DEFPIN(PIN, BIT, L) template<> class FastPin<PIN> : public _ARMPIN<PIN, BIT, 1 << BIT, _R(GPIO ## L)> {};
 // STM32G031K8
 // see. packages/framework-arduinoststm32/variants/STM32G0xx/G031K(4-6-8)(T-U)_G041K(6-8)(T-U)/variant_NUCLEO_G031K8.h
@@ -253,6 +253,8 @@ _FL_DEFPIN(30, 15, C);
 
 
 #define HAS_HARDWARE_PIN_SUPPORT 1
+
+#elif defined(STM32G030xx)
 
 #endif // STM32F1
 
