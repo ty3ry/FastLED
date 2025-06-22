@@ -251,6 +251,9 @@ _FL_DEFPIN(24, 6, C);
 _FL_DEFPIN(29, 14, C);
 _FL_DEFPIN(30, 15, C);
 
+// PF
+_FL_DEFPIN(31, 2, F);
+
 
 #define HAS_HARDWARE_PIN_SUPPORT 1
 

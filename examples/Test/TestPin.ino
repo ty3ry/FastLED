@@ -2,22 +2,40 @@
 #include <SoftwareSerial.h>
 
 
-#define TEST_PIN 12 // Misalnya kamu pakai PB4 dan sudah definisikan _FL_DEFPIN(4, 4, B)
+#define LED_PIN         24 
+#define BUTTON_PIN      PF2
+
+#define PERIODE     500
+
+uint32_t start = 0;
+uint8_t state = 0;
 
 void setup() {
     Serial.begin(115200);
 
-    Serial.println("-- LED Fire2012! --");
-    FastPin<TEST_PIN>::setOutput(); // Set pin sebagai output
+    Serial.println("-- TEST PIN --");
+    FastPin<LED_PIN>::setOutput();
+    FastPin<BUTTON_PIN>::setInput();
 
-    // pinMode(12, OUTPUT);
+    start = millis();
+
+    //pinMode(LED_PIN, OUTPUT);
+    pinMode(BUTTON_PIN, INPUT);
 }
 
 void loop() {
-    FastPin<TEST_PIN>::hi(); // Nyala
-    // digitalWrite(TEST_PIN, 1);
-    delay(500);
-    FastPin<TEST_PIN>::lo(); // Mati
-    // digitalWrite(TEST_PIN, 0);
-    delay(500);
+
+    if (millis() > start + PERIODE) {
+        start = millis();
+
+        if (state ^= 1) {
+            FastPin<LED_PIN>::hi();
+        } else {
+            FastPin<LED_PIN>::lo();
+        }
+    }
+
+    if (/*FastPin<BUTTON_PIN>::loval()*/ digitalRead(BUTTON_PIN)) {
+        Serial.println("Btn Pressed!");
+    }
 }
