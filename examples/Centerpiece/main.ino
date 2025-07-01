@@ -7,7 +7,7 @@
 static Animasi anime;
 static EventContext msgSend;
 static Key key;
-unsigned long int option = 0;
+unsigned long int option = MODE_PACIFICA;
 
 void setup()
 {
@@ -27,11 +27,11 @@ void loop()
             break;
 
         case MSG_MODE:
-            option = (option + 1) % 9;
+            option = (option + 1) % MODE_MAX;
             break;
     }
 
     /** do select animation */
-    anime.Testing(option);
+    anime.RunPattern(option);
 
 }

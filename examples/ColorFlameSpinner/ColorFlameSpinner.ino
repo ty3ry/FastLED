@@ -1,6 +1,6 @@
 #include <FastLED.h>
 
-#define LED_PIN     12
+#define LED_PIN     5
 #define NUM_LEDS    24       // Jumlah LED pada ring
 #define BRIGHTNESS  180
 #define LED_TYPE    WS2812

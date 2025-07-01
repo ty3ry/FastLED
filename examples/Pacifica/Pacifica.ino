@@ -13,7 +13,7 @@
 #include <FastLED.h>
 FASTLED_USING_NAMESPACE
 
-#define DATA_PIN            12
+#define DATA_PIN            5
 #define NUM_LEDS            24
 #define MAX_POWER_MILLIAMPS 500
 #define LED_TYPE            WS2812B
@@ -32,7 +32,7 @@ void setup() {
 
 void loop()
 {
-  EVERY_N_MILLISECONDS( 20) {
+  EVERY_N_MILLISECONDS( 70) {
     pacifica_loop();
     FastLED.show();
   }
