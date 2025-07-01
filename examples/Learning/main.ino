@@ -12,5 +12,6 @@ void loop() {
     // anime.animasi_1();
     // anime.RainbowCycle();
     // anime.Basic();
-    anime.PulseShow();
+    // anime.PulseShow();
+    anime.GetButton();
 }

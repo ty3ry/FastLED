@@ -20,6 +20,7 @@ public:
     void RainbowCycle(void);
     void Pulse(int ms);
     void PulseShow(void);
+    void GetButton(void);
 };
 
 

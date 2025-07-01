@@ -14,6 +14,8 @@ FASTLED_NAMESPACE_BEGIN
 #define ADJ 20
 #endif
 
+#define TIM TIM3
+
 template <int DATA_PIN, int T1, int T2, int T3, EOrder RGB_ORDER = RGB, int XTRA0 = 0, bool FLIP = false, int WAIT_TIME = 50>
 class ClocklessController : public CPixelLEDController<RGB_ORDER> {
     typedef typename FastPin<DATA_PIN>::port_ptr_t data_ptr_t;
@@ -33,11 +35,11 @@ public:
         /** use high resolution timer to replace DWT function on STM32 without it
          * like STM32G0 series
          */
-        __HAL_RCC_TIM2_CLK_ENABLE();
-        TIM2->PSC = 0;              // Full speed, no prescaler
-        TIM2->ARR = 0xFFFFFFFF;     // Max range (32-bit counter)
-        TIM2->CNT = 0;
-        TIM2->CR1 = TIM_CR1_CEN;    // Enable counter
+        __HAL_RCC_TIM3_CLK_ENABLE();
+        TIM->PSC = 0;              // Full speed, no prescaler
+        TIM->ARR = 0xFFFF;          // Max range (16-bit counter)
+        TIM->CNT = 0;
+        TIM->CR1 = TIM_CR1_CEN;    // Enable counter
 #endif
     }
 
@@ -54,7 +56,7 @@ protected:
     }
 
 #if defined(STM32G0)
-#define _CYCCNT (TIM2->CNT)//(*(volatile uint32_t*)(0xE0001004UL))
+#define _CYCCNT (TIM->CNT)//(*(volatile uint32_t*)(0xE0001004UL))
 #else
 #define _CYCCNT (*(volatile uint32_t*)(0xE0001004UL))
 #endif //if defined(STM32G0)
@@ -92,7 +94,7 @@ protected:
     static uint32_t showRGBInternal(PixelController<RGB_ORDER> pixels) {
         // Get access to the clock
 #if defined(STM32G0)
-        TIM2->CNT = 0;
+        TIM->CNT = 0;
 #else
         CoreDebug->DEMCR  |= CoreDebug_DEMCR_TRCENA_Msk;
         DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;

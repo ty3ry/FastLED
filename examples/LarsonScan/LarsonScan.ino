@@ -1,7 +1,7 @@
 #include <FastLED.h>
 
-#define LED_PIN     12         // Ganti dengan pin FastLED kamu (misalnya PB4)
-#define NUM_LEDS    24        // Jumlah LED kamu
+#define LED_PIN     5 
+#define NUM_LEDS    24
 #define BRIGHTNESS  200
 #define LED_TYPE    WS2812
 #define COLOR_ORDER GRB
@@ -24,7 +24,7 @@ void loop() {
   }
 
   // Nyalakan LED di posisi saat ini
-  leds[pos] = CRGB::Red;
+  leds[pos] = CRGB::Blue;
 
   // Tampilkan ke strip
   FastLED.show();

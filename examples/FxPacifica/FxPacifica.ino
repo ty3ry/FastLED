@@ -16,7 +16,7 @@
 
 using namespace fl;
 
-#define DATA_PIN            12
+#define DATA_PIN            5
 #define NUM_LEDS            24
 #define MAX_POWER_MILLIAMPS 500
 #define LED_TYPE            WS2812B

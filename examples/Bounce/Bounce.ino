@@ -18,7 +18,7 @@
 
 
 #define NUM_LEDS    24          // FastLED definitions
-#define LED_PIN     12
+#define LED_PIN     5
 
 CRGB g_LEDs[NUM_LEDS] = {0};    // Frame buffer for FastLED
 
