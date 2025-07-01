@@ -1,6 +1,6 @@
 #include <FastLED.h>
 
-#define LED_PIN     12
+#define LED_PIN     5
 #define NUM_LEDS    24       // Ubah sesuai jumlah LED kamu
 #define BRIGHTNESS  150
 #define LED_TYPE    WS2812
@@ -23,7 +23,7 @@ void loop() {
   leds[pos] = CHSV(160, 255, 255);    // Warna biru kehijauan
 
   FastLED.show();
-  delay(20);
+  delay(100);
 
   pos += direction;
   if (pos == NUM_LEDS - 1 || pos == 0) {
