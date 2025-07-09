@@ -2,9 +2,9 @@
 
 static const unsigned int IOKEY_TAB[][5] =
 {
-    //KEY_PRESS       SHORT_RELEASE     LONG_PRESS     KEY_HOLD      LONG_PRESS_RELEASE
-	{MSG_NONE,        MSG_MODE,      	MSG_COLOR_MODE_BLINK,       MSG_NONE,     MSG_NONE    },
-    {MSG_NONE,        MSG_NONE,         MSG_NONE,       MSG_NONE,     MSG_NONE    },
+    //KEY_PRESS       SHORT_RELEASE     LONG_PRESS          KEY_HOLD      LONG_PRESS_RELEASE
+	{MSG_NONE,        MSG_MODE,      	MSG_SELECT_MODE,    MSG_NONE,     MSG_NONE    },
+    {MSG_NONE,        MSG_NONE,         MSG_NONE,           MSG_NONE,     MSG_NONE    },
 };
 
 Key::Key(/* args */)

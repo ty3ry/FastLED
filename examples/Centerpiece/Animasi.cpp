@@ -247,7 +247,7 @@ void Animasi::generateFireEffect()
 
     // 4. Konversi suhu ke warna
     for (int i = 0; i < NUM_LEDS; i++) {
-        leds[i] = HeatColor(heat[i]);  // Merah â†’ oranye â†’ kuning
+        leds[i] = HeatColor(heat[i]);  // Merah â†? oranye â†? kuning
     }
 }
 
@@ -402,6 +402,54 @@ void Animasi::Pacifica(void)
     pacifica_deepen_colors();
 }
 
+void Animasi::StaticColor(unsigned int color_index)
+{
+    EVERY_N_MILLISECONDS(100) {
+        // Set all LEDs to a static color based on the color index
+        switch (color_index) {
+            case COLOR_RED:
+                fill_solid(leds, NUM_LEDS, CRGB::Red);
+                break;
+            case COLOR_GREEN:
+                fill_solid(leds, NUM_LEDS, CRGB::Green);
+                break;
+            case COLOR_BLUE:
+                fill_solid(leds, NUM_LEDS, CRGB::Blue);
+                break;
+            case COLOR_YELLOW:
+                fill_solid(leds, NUM_LEDS, CRGB::Yellow);
+                break;
+            case COLOR_WHITE:
+                fill_solid(leds, NUM_LEDS, CRGB::White);
+                break;
+            case COLOR_CYAN:
+                fill_solid(leds, NUM_LEDS, CRGB::Cyan);
+                break;
+            case COLOR_MAGENTA:
+                fill_solid(leds, NUM_LEDS, CRGB::Magenta);
+                break;
+            case COLOR_PURPLE:
+                fill_solid(leds, NUM_LEDS, CRGB::Purple);
+                break;
+            case COLOR_ORANGE:
+                fill_solid(leds, NUM_LEDS, CRGB::Orange);
+                break;
+            default:
+                fill_solid(leds, NUM_LEDS, CRGB::Black); // Default to off
+        }
+    }
+}
+
+void Animasi::ProgressTrail(void)
+{
+    
+}
+
+void Animasi::Show(void)
+{
+    FastLED.show();
+}
+
 void Animasi::RunPattern(uint8_t option)
 {
     switch (option) {
@@ -442,5 +490,4 @@ void Animasi::RunPattern(uint8_t option)
             break;
     }
 
-    FastLED.show();
 }

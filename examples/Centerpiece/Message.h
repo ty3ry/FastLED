@@ -35,6 +35,7 @@ enum MessageId {
     MSG_POWER,  
     MSG_LANG,
     MSG_MODE,
+	MSG_SELECT_MODE,
 	MSG_COLOR_MODE_BLINK,
 	MSG_SET_MODE,
     MSG_SETUP,

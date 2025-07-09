@@ -5,7 +5,7 @@
 
 #define LED_PIN     5
 
-#define NUM_LEDS    24
+#define NUM_LEDS    30
 #define FRAME_PER_SECOND    60
 #define BRIGHTNESS  150
 
@@ -22,6 +22,25 @@ enum AnimationMode {
     MODE_BIDIRECTIONAL_PULSE,
     MODE_PACIFICA,
     MODE_MAX,
+};
+
+enum ColorIndex {
+    COLOR_RED = 0,
+    COLOR_GREEN,
+    COLOR_BLUE,
+    COLOR_YELLOW,
+    COLOR_WHITE,
+    COLOR_CYAN,
+    COLOR_MAGENTA,
+    COLOR_PURPLE,
+    COLOR_ORANGE,
+    COLOR_MAX,
+};
+
+enum AnimMode {
+    LED_MODE_ANIM = 0,
+    LED_MODE_COLOR_STATIC,
+    LED_MODE_MAX,
 };
 
 class Animasi
@@ -64,6 +83,10 @@ public:
     void LarsonScan(void);
     void BidirectionalPulse(void);
     void Pacifica(void);
+    void StaticColor(unsigned int color_index);
+    void ProgressTrail(void);
+
+    void Show(void);
 };
 
 
