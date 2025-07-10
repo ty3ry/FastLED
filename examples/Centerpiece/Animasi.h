@@ -7,7 +7,7 @@
 
 #define NUM_LEDS    30
 #define FRAME_PER_SECOND    60
-#define BRIGHTNESS  150
+#define BRIGHTNESS_PERCENT  50
 
 enum AnimationMode {
     MODE_RAINBOW = 0,
@@ -21,6 +21,7 @@ enum AnimationMode {
     MODE_LARSON_SCAN,
     MODE_BIDIRECTIONAL_PULSE,
     MODE_PACIFICA,
+    //MODE_PROGRESS_TRAIL,
     MODE_MAX,
 };
 
@@ -40,6 +41,7 @@ enum ColorIndex {
 enum AnimMode {
     LED_MODE_ANIM = 0,
     LED_MODE_COLOR_STATIC,
+    LED_MODE_SET_BRIGHTNESS,
     LED_MODE_MAX,
 };
 
@@ -84,7 +86,9 @@ public:
     void BidirectionalPulse(void);
     void Pacifica(void);
     void StaticColor(unsigned int color_index);
-    void ProgressTrail(void);
+    void SetBrightShow(uint8_t );
+
+    void SetBrightness(uint8_t );
 
     void Show(void);
 };

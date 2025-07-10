@@ -20,7 +20,7 @@ CRGBPalette16 pacifica_palette_3 =
 Animasi::Animasi(void)
 {
     FastLED.addLeds<WS2812B, LED_PIN, GRB>(leds, NUM_LEDS);
-    FastLED.setBrightness(BRIGHTNESS);
+    //FastLED.setBrightness(BRIGHTNESS);
     FastLED.clear();
 }
 
@@ -82,6 +82,7 @@ void Animasi::sinelon(void) {
 }
 
 void Animasi::bpm(void) {
+#if 0
     // colored stripes pulsing at a defined Beats-Per-Minute (BPM)
     uint8_t BeatsPerMinute = 62;
     CRGBPalette16 palette = PartyColors_p;
@@ -90,6 +91,25 @@ void Animasi::bpm(void) {
         leds[i] =
             ColorFromPalette(palette, mHue + (i * 2), beat - mHue + (i * 10));
     }
+#else
+    uint8_t BeatsPerMinute = 65;
+    CRGBPalette16 palette = PartyColors_p;
+
+    // Posisi "denyutan" yang bergerak bolak-balik
+    uint16_t pos = beatsin16(BeatsPerMinute, 0, NUM_LEDS - 1);
+
+    // Efek menyapu dari satu sisi ke sisi lain
+    for (uint16_t i = 0; i < NUM_LEDS; i++) {
+        // Hitung jarak LED ke posisi denyutan
+        uint16_t distance = abs(i - pos);
+
+        // Semakin dekat ke posisi denyutan, semakin terang
+        uint8_t brightness = 255 - (distance * 255 / NUM_LEDS);
+
+        // Terapkan warna dari palet
+        leds[i] = ColorFromPalette(palette, 200 + (i * 2), brightness, LINEARBLEND);
+    }
+#endif
 }
 
 void Animasi::juggle(void) {
@@ -440,9 +460,27 @@ void Animasi::StaticColor(unsigned int color_index)
     }
 }
 
-void Animasi::ProgressTrail(void)
+void Animasi::SetBrightness(uint8_t percent)
 {
-    
+    uint8_t brightness = (percent*255)/100;
+    FastLED.setBrightness( brightness );
+}
+
+void Animasi::SetBrightShow(uint8_t percent)
+{
+    EVERY_N_MILLISECONDS(500) {
+        int numToLight = map(percent, 0, 100, 0, NUM_LEDS);
+
+        for (int i = 0; i < NUM_LEDS; i ++) {
+            if (i <= numToLight) {
+                leds[i] = CRGB::Blue;
+                leds[i].fadeToBlackBy(80);
+                SetBrightness(percent);
+            } else {
+                leds[i] = CRGB::Red;
+            }
+        }
+    }
 }
 
 void Animasi::Show(void)
