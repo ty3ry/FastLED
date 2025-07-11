@@ -174,16 +174,17 @@ void Animasi::Blur(void)
 // COOLING: How much does the air cool as it rises?
 // Less cooling = taller flames.  More cooling = shorter flames.
 // Default 50, suggested range 20-100 
-#define COOLING  90
+#define COOLING  80
 
 // SPARKING: What chance (out of 255) is there that a new spark will be lit?
 // Higher chance = more roaring fire.  Lower chance = more flickery fire.
 // Default 120, suggested range 50-200.
-#define SPARKING 120
+#define SPARKING 150
 
 void Animasi::Fire2012(void)
 {
-    EVERY_N_MILLISECONDS(30){
+    EVERY_N_MILLISECONDS(50){
+#if 0
         static bool gReverseDirection = false;
 
         // Array of temperature readings at each simulation cell
@@ -216,7 +217,42 @@ void Animasi::Fire2012(void)
             }
             leds[pixelnumber] = color;
         }
-        // FastLED.delay(1000 / 60);
+
+#else
+    static byte heatA[NUM_LEDS];
+    static byte heatB[NUM_LEDS];
+
+    // Step 1: Cool down heat
+    for (int i = 0; i < NUM_LEDS; i++) {
+        heatA[i] = qsub8(heatA[i], random8(0, ((COOLING * 10) / NUM_LEDS) + 2));
+        heatB[i] = qsub8(heatB[i], random8(0, ((COOLING * 10) / NUM_LEDS) + 2));
+    }
+
+    // Step 2: Heat rises (for both directions)
+    for (int k = NUM_LEDS - 1; k >= 2; k--) {
+        heatA[k] = (heatA[k - 1] + heatA[k - 2] + heatA[k - 2]) / 3;
+        heatB[NUM_LEDS - 1 - k] = (heatB[NUM_LEDS - k] + heatB[NUM_LEDS - k + 1] + heatB[NUM_LEDS - k + 1]) / 3;
+    }
+
+    // Step 3: Sparks at both bases (bottom positions)
+    if (random8() < SPARKING) {
+        int y = random8(2);
+        heatA[y] = qadd8(heatA[y], random8(160, 255));
+        heatB[y] = qadd8(heatB[y], random8(160, 255));
+    }
+
+    // Step 4: Combine both heat sources and map to LED ring
+    for (int j = 0; j < NUM_LEDS; j++) {
+        byte combinedHeat = qadd8(heatA[j], heatB[j]) / 2;
+        CRGB color = HeatColor(combinedHeat);
+
+        // Positioning: offset so base fire comes from bottom (jam 6 & 12)
+        leds[(j + 3 * NUM_LEDS / 4) % NUM_LEDS] = color;
+    }
+
+    // Optional: soften with blur
+    //blur1(leds, NUM_LEDS, 64);
+#endif
     }
 }
 

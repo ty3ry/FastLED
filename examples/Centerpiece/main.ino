@@ -10,7 +10,7 @@
 static Animasi anime;
 static EventContext msgSend;
 static Key key;
-unsigned long int option = MODE_PACIFICA;
+unsigned long int anim_mode = MODE_FIRE2012;//MODE_PACIFICA;
 unsigned int colorIndex = 0;
 uint8_t brightness = 50;
 unsigned char led_mode = 0;
@@ -56,14 +56,16 @@ void setup()
     // load from NVM
     nvmData.word = readFlash(FLASH_USER_START_ADDR);
 
-    nvmData.b2 = 0xaa;
-    nvmData.b3 = 0x55;
+    nvmData.b3 = 0x55;  // ID
 
-    colorIndex = nvmData.b0;
-    brightness = nvmData.b1;
+    colorIndex  = nvmData.b0;
+    brightness  = nvmData.b1;
+    anim_mode   = nvmData.b2;
 
+    // set boundaries
     if (brightness <= 0 || brightness > 100 ) brightness = BRIGHTNESS_PERCENT;
     if (colorIndex > COLOR_MAX) colorIndex = 0;
+    if (anim_mode <= 0 || anim_mode >= MODE_MAX) anim_mode = MODE_PACIFICA;
 
     // set FastLED brightness
     anime.SetBrightness(brightness);
@@ -84,7 +86,9 @@ void loop()
         case MSG_MODE:
             switch( led_mode ) {
             case LED_MODE_ANIM:
-                option = (option + 1) % MODE_MAX;
+                anim_mode = (anim_mode + 1) % MODE_MAX;
+                nvmData.b2 = (uint8_t) anim_mode;
+                writeFlash( FLASH_USER_START_ADDR, nvmData.word );
                 break;
 
             case LED_MODE_COLOR_STATIC:
@@ -116,7 +120,7 @@ void loop()
     }
 
     if (led_mode == LED_MODE_ANIM) {
-        anime.RunPattern( option );
+        anime.RunPattern( anim_mode );
     } else if (led_mode == LED_MODE_COLOR_STATIC) {
         anime.StaticColor( colorIndex );
     } else if (led_mode == LED_MODE_SET_BRIGHTNESS) {
